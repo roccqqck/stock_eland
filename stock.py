@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[19]:
+# In[6]:
 
 
 import pandas as pd
 
 
-# In[20]:
+# In[7]:
 
 
 df_OTC2018 = pd.read_csv("bda2019_dataset/OTC2018.csv",encoding="utf-8")
@@ -21,7 +21,7 @@ df_forum = pd.read_csv("bda2019_dataset/forum2.csv",encoding="utf-8")
 df_news = pd.read_csv("bda2019_dataset/news2.csv",encoding="utf-8")
 
 
-# In[21]:
+# In[8]:
 
 
 df_OTC2018.head()
