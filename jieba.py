@@ -10,9 +10,9 @@ import jieba
 # In[ ]:
 
 
-content = open("bda2019_dataset/test.json.txt", "rb").read()
+content = open("bda2019_dataset/forum2.txt", "rb").read()
 seg_list = jieba.cut(content, cut_all=False)
-print(" ".join(seg_list),file=open("bda2019_dataset/test2.json.txt", "a"))  # 精確模式
+print(" ".join(seg_list),file=open("bda2019_dataset/forum3.txt", "a"))  # 精確模式
 del content
 del seg_list
 
