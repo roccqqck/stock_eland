@@ -10,9 +10,7 @@ RUN  conda install --quiet --yes \
 # FinMind
     pip install FinMind==1.0.53 && \
 
-# jupyterlab-git 
-    conda install --quiet --yes 'nodejs=10.13.0' && \
-    npm install npm@6.4.1 -g && \
+# jupyterlab-git
     jupyter labextension install @jupyterlab/git && \
     pip install jupyterlab-git && \
     jupyter serverextension enable --py jupyterlab_git && \
