@@ -10,6 +10,9 @@ RUN  conda install --quiet --yes \
 # FinMind
     pip install FinMind==1.0.53 && \
 
+# jieba
+    pip install jieba==0.39 && \
+
 # jupyterlab-git
     jupyter labextension install @jupyterlab/git && \
     pip install jupyterlab-git && \
