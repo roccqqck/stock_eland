@@ -10,10 +10,17 @@ RUN  conda install --quiet --yes \
 # FinMind
     pip install FinMind==1.0.53 && \
 
+# jupyterlab-git 
+    jupyter labextension install @jupyterlab/git && \
+    pip install jupyterlab-git && \
+    jupyter serverextension enable --py jupyterlab_git && \
+    
 # ==================================================================
 # config & cleanup
 # ------------------------------------------------------------------
     conda clean -tipsy && \
+    npm cache clean --force && \
+    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     rm -rf /home/$NB_USER/.cache
@@ -31,7 +38,6 @@ RUN cd /tmp && \
            /tmp/* \
            /var/lib/apt/lists/* && \
     cat /etc/group
-
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
