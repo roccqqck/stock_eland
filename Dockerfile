@@ -44,8 +44,13 @@ RUN cd /tmp && \
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
-
-RUN pip install ta-lib==0.4.17 && \
+# if we wanna install Ta-lib FROM jupyter/base-notebook
+# we have to install it at last RUN
+# cuz after install it , the permission of jovyan user directory would be changed
+# i still have no answer to fix that problem
+RUN fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER && \
+    pip install ta-lib==0.4.17 && \
+    rm -rf /home/$NB_USER/.cache/*
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
-    rm -rf /home/$NB_USER/.cache/*
