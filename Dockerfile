@@ -28,8 +28,11 @@ RUN  conda install --quiet --yes \
     fix-permissions /home/$NB_USER && \
     rm -rf /home/$NB_USER/.cache/*
 
-USER root  
-# TA-Lib
+USER root
+# if we wanna install Ta-lib FROM jupyter/base-notebook
+# we have to install it at last RUN
+# cuz after install it , the permission of jovyan user directory would be changed
+# i still have no answer to fix that problem
 RUN cd /tmp && \
     wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
     tar -xvzf ta-lib-0.4.0-src.tar.gz && \
@@ -39,18 +42,13 @@ RUN cd /tmp && \
     make install && \
     rm -rf /root/.cache \
            /tmp/* \
-           /var/lib/apt/lists/* && \
-    cat /etc/group
+           /var/lib/apt/lists/*  \
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
-# if we wanna install Ta-lib FROM jupyter/base-notebook
-# we have to install it at last RUN
-# cuz after install it , the permission of jovyan user directory would be changed
-# i still have no answer to fix that problem
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
     pip install ta-lib==0.4.17 && \
-    rm -rf /home/$NB_USER/.cache/*
+    rm -rf /home/$NB_USER/.cache/* && \
     fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER && \
+    fix-permissions /home/$NB_USER \
