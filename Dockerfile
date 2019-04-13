@@ -1,8 +1,9 @@
-FROM jupyter/tensorflow-notebook
+FROM jupyter/tensorflow-notebook:4cdbc9cdb7d1
 
 # pandas reader
-RUN  conda install --quiet --yes \
+RUN conda install --quiet --yes \
     'pandas-datareader=0.7.0' && \
+    conda install  --quiet --yes -c pytorch pytorch-cpu=1.0* torchvision-cpu=0.2* && \
 
 # mpl-finance
     pip install mpl-finance==0.10.0 && \
