@@ -26,7 +26,7 @@ RUN  conda install --quiet --yes \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
-    rm -rf /home/$NB_USER/.cache
+    rm -rf /home/$NB_USER/.cache/*
 
 USER root  
 # TA-Lib
