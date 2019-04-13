@@ -21,12 +21,12 @@ RUN  conda install --quiet --yes \
 # ==================================================================
 # config & cleanup
 # ------------------------------------------------------------------
-    conda clean -tipsy && \
+    conda clean -ay && \
     npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
+    rm -rf /home/$NB_USER/.cache/* && \
     fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER && \
-    rm -rf /home/$NB_USER/.cache/*
+    fix-permissions /home/$NB_USER \
 
 USER root
 # if we wanna install Ta-lib FROM jupyter/base-notebook
