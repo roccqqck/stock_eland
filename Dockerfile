@@ -48,4 +48,4 @@ USER $NB_UID
 RUN pip install ta-lib==0.4.17 && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER && \
-    rm -rf /home/$NB_USER/.cache
+    rm -rf /home/$NB_USER/.cache/*
