@@ -78,6 +78,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         setuptools \
         && \
     $PIP_INSTALL \
+        conda \
         numpy \
         scipy \
         pandas \
@@ -88,7 +89,6 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         Cython \
         seaborn \
         xlrd \
-        hdf5 \
         numexpr \
         patsy \
         statsmodels \
