@@ -141,7 +141,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     jupyter serverextension enable --py jupyterlab_git && \
 
 # ==================================================================
-# config & cleanup
+# config & cleanup the best way is delete everything except ~/.bashrc
 # ------------------------------------------------------------------
 
     ldconfig && \
@@ -149,7 +149,11 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     apt-get autoremove && \
     npm cache clean --force && \
     rm -rf /var/lib/apt/lists/* \
+           /var/lib/apt/lists/.* \
            /tmp/* \
            ~/* \
+           ~/.cache \
+           ~/.npm \
+           ~/.jupyter \
 
 EXPOSE 6006 8888
