@@ -1,40 +1,45 @@
-FROM jupyter/tensorflow-notebook:4cdbc9cdb7d1
-
-# pandas reader
-RUN conda install --quiet --yes \
-    'pandas-datareader=0.7.0' && \
-    conda install  --quiet --yes -c pytorch pytorch-cpu=1.0* torchvision-cpu=0.2* && \
-
-# mpl-finance
-    pip install mpl-finance==0.10.0 && \
-
-# FinMind
-    pip install FinMind==1.0.53 && \
-
-# jieba
-    pip install jieba==0.39 && \
-
-# jupyterlab-git
-    jupyter labextension install @jupyterlab/git && \
-    pip install jupyterlab-git && \
-    jupyter serverextension enable --py jupyterlab_git && \
-    
+# forked from ufoym/deepo:all-jupyter
 # ==================================================================
-# config & cleanup
+# module list
 # ------------------------------------------------------------------
-    conda clean -ay && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/* && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER \
+# python        3.6    (apt)
+# tensorflow    latest (pip)
+# keras         latest (pip)
+# ==================================================================
+# $ docker run --runtime=nvidia -it -p 8888:8888 --ipc=host ufoym/deepo:all-jupyter jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token= --notebook-dir='/root'
 
-USER root
-# if we wanna install Ta-lib FROM jupyter/base-notebook
-# we have to install it at last RUN
-# cuz after install it , the permission of jovyan user directory would be changed
-# i still have no answer to fix that problem
-RUN cd /tmp && \
+FROM ubuntu:18.04
+ENV LANG C.UTF-8
+RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
+    PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
+    GIT_CLONE="git clone --depth 10" && \
+
+    rm -rf /var/lib/apt/lists/* \
+           /etc/apt/sources.list.d/cuda.list \
+           /etc/apt/sources.list.d/nvidia-ml.list && \
+
+    apt-get update && \
+
+# ==================================================================
+# tools
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        build-essential \
+        apt-utils \
+        ca-certificates \
+        wget \
+        git \
+        vim \
+        tmux \
+        nodejs \
+        npm \
+        make \
+        cmake \
+        && \
+        
+## Ta-lib ==============================================================    
+    cd /tmp && \
     wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
     tar -xvzf ta-lib-0.4.0-src.tar.gz && \
     cd ta-lib/ && \
@@ -42,14 +47,109 @@ RUN cd /tmp && \
     make && \
     make install && \
     rm -rf /root/.cache \
-           /tmp/* \
-           /var/lib/apt/lists/*  \
+           /tmp/* && \
+    cd && \
 
-# Switch back to jovyan to avoid accidental container runs as root
-USER $NB_UID
-RUN fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER && \
-    pip install ta-lib==0.4.17 && \
-    rm -rf /home/$NB_USER/.cache/* && \
-    fix-permissions $CONDA_DIR && \
-    fix-permissions /home/$NB_USER \
+# $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
+# cd ~/cmake && \
+# ./bootstrap && \
+# make -j"$(nproc)" install && \
+
+# ==================================================================
+# python
+# ------------------------------------------------------------------
+
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        software-properties-common \
+        && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+        python3.6 \
+        python3.6-dev \
+        python3-distutils-extra \
+        && \
+    wget -O ~/get-pip.py \
+        https://bootstrap.pypa.io/get-pip.py && \
+    python3.6 ~/get-pip.py && \
+    ln -s /usr/bin/python3.6 /usr/local/bin/python3 && \
+    ln -s /usr/bin/python3.6 /usr/local/bin/python && \
+    $PIP_INSTALL \
+        setuptools \
+        && \
+    $PIP_INSTALL \
+        numpy \
+        scipy \
+        pandas \
+        cloudpickle \
+        scikit-learn \
+        scikit-image \
+        matplotlib \
+        Cython \
+        seaborn \
+        xlrd \
+        hdf5 \
+        numexpr \
+        patsy \
+        statsmodels \
+        dill \
+        dask \
+        numba \
+        bokeh \
+        sqlalchemy \
+        vincent \
+        protobuf \
+        beautifulsoup4 \
+        ipywidgets \
+        pandas_datareader \
+        mpl-finance \
+        FinMind \
+        jieba \
+        ta-lib \
+        && \
+
+# ==================================================================
+# jupyter
+# ------------------------------------------------------------------
+
+    $PIP_INSTALL \
+        jupyter \
+        jupyterlab \
+        jupyterhub \
+        && \
+
+# ==================================================================
+# tensorflow
+# ------------------------------------------------------------------
+
+    $PIP_INSTALL \
+        tensorflow \
+        && \
+
+# ==================================================================
+# keras
+# ------------------------------------------------------------------
+
+    $PIP_INSTALL \
+        h5py \
+        keras \
+        && \
+
+# jupyterlab-git----------------------------------------------------
+    jupyter labextension install @jupyterlab/git && \
+    $PIP_INSTALL jupyterlab-git && \
+    jupyter serverextension enable --py jupyterlab_git && \
+
+# ==================================================================
+# config & cleanup
+# ------------------------------------------------------------------
+
+    ldconfig && \
+    apt-get autoclean && \
+    apt-get autoremove && \
+    npm cache clean --force && \
+    rm -rf /var/lib/apt/lists/* \
+           /tmp/* \
+           ~/* \
+
+EXPOSE 6006 8888
