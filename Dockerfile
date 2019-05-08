@@ -100,12 +100,13 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         vincent \
         protobuf \
         beautifulsoup4 \
-        ipywidgets \
         pandas_datareader \
         mpl-finance \
         FinMind \
         jieba \
         ta-lib \
+        xgboost \
+        lightgbm \
         && \
 
 # ==================================================================
@@ -123,15 +124,28 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     $PIP_INSTALL \
-        tensorflow==1.12* \
+        tensorflow==1.13* \
         keras==2.2* \
         h5py \
         && \
 
-# jupyterlab-git----------------------------------------------------
+# jupyterlab-extension----------------------------------------------------
+    pip install ipywidgets && \
+    jupyter nbextension enable --py widgetsnbextension && \
+    
+    
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
+
+    
     jupyter labextension install @jupyterlab/git && \
     $PIP_INSTALL jupyterlab-git && \
     jupyter serverextension enable --py jupyterlab_git && \
+
+    
+    jupyter labextension install @lckr/jupyterlab_variableinspector && \
+
+
+    jupyter lab build && \
 
 # ==================================================================
 # config & cleanup the best way is delete every cache and everything in /root except /root/.bashrc
