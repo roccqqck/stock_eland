@@ -7,7 +7,7 @@ sudo docker pull roccqqck/stock-notebook
 sudo docker run -it -p 0.0.0.0:8888:8888 --ipc=host roccqqck/stock-notebook \
      jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --notebook-dir='/'
 ``````
-#### use your remote server Public Static IP, for example  140.112.254.4:8888 or localhost:8888
+#### use your remote server Public Static IP, for example  http://140.112.254.4:8888 or http://localhost:8888
 
 
 
