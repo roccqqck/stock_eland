@@ -105,6 +105,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         FinMind \
         jieba \
         ta-lib \
+        gensim \
+        nltk \
         xgboost \
         lightgbm \
         && \
@@ -124,8 +126,8 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 # ------------------------------------------------------------------
 
     $PIP_INSTALL \
-        tensorflow==1.13* \
-        keras==2.2* \
+        tensorflow \
+        keras \
         h5py \
         && \
 
