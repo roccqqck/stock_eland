@@ -1,30 +1,15 @@
-# forked from ufoym/deepo:all-jupyter
-# ==================================================================
-# module list
-# ------------------------------------------------------------------
-# python        3.6    (apt)
-# tensorflow    latest (pip)
-# keras         latest (pip)
-# ==================================================================
-# $ docker run --runtime=nvidia -it -p 8888:8888 --ipc=host ufoym/deepo:all-jupyter jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token= --notebook-dir='/root'
+# python miniconda3 stock-notebook
+# forked from https://github.com/ContinuumIO
 
-FROM ubuntu:18.04
-ENV LANG C.UTF-8
-RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
-    PIP_INSTALL="python -m pip --no-cache-dir install --upgrade" && \
-    GIT_CLONE="git clone --depth 10" && \
+FROM ubuntu:bionic-20190424
 
-    rm -rf /var/lib/apt/lists/* \
-           /etc/apt/sources.list.d/cuda.list \
-           /etc/apt/sources.list.d/nvidia-ml.list && \
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV PATH /root/conda/bin:$PATH
 
-    apt-get update && \
+### apt setting  #######################################
 
-# ==================================================================
-# tools
-# ------------------------------------------------------------------
-
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
+RUN apt-get update --fix-missing && \
+    apt-get install -y --no-install-recommends \
         build-essential \
         apt-utils \
         ca-certificates \
@@ -37,7 +22,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         make \
         cmake \
         && \
-        
+
 ## Ta-lib ==============================================================    
     cd /tmp && \
     wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && \
@@ -50,34 +35,25 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
            /tmp/* && \
     cd && \
 
-# $GIT_CLONE https://github.com/Kitware/CMake ~/cmake && \
-# cd ~/cmake && \
-# ./bootstrap && \
-# make -j"$(nproc)" install && \
 
-# ==================================================================
-# python
-# ------------------------------------------------------------------
 
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        software-properties-common \
-        && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive $APT_INSTALL \
-        python3.6 \
-        python3.6-dev \
-        python3-distutils-extra \
-        && \
-    wget -O ~/get-pip.py \
-        https://bootstrap.pypa.io/get-pip.py && \
-    python3.6 ~/get-pip.py && \
-    ln -s /usr/bin/python3.6 /usr/local/bin/python3 && \
-    ln -s /usr/bin/python3.6 /usr/local/bin/python && \
-    $PIP_INSTALL \
-        setuptools \
-        && \
-    $PIP_INSTALL \
+### miniconda ##########################################
+
+
+    wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /root/conda && \
+#    ln -s /root/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /root/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc && \
+    /bin/bash -c "source /root/.bashrc" && \
+
+#    /root/conda/bin/pip --no-cache-dir install --upgrade jupyter  && \
+#    /root/conda/bin/conda install jupyter -y && \
+
+
+
+########### pip install ###########
+    pip --no-cache-dir install --upgrade \
         numpy \
         scipy \
         pandas \
@@ -108,27 +84,14 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
         nltk \
         xgboost \
         lightgbm \
-        && \
-
-# ==================================================================
-# jupyter
-# ------------------------------------------------------------------
-
-    $PIP_INSTALL \
         jupyter \
         jupyterlab \
         jupyterhub \
-        && \
-
-# ==================================================================
-# tensorflow Keras
-# ------------------------------------------------------------------
-
-    $PIP_INSTALL \
         tensorflow \
         keras \
         h5py \
         && \
+
 
 # jupyterlab-extension----------------------------------------------------
     pip install ipywidgets && \
@@ -139,7 +102,7 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     
     jupyter labextension install @jupyterlab/git && \
-    $PIP_INSTALL jupyterlab-git && \
+    pip install jupyterlab-git && \
     jupyter serverextension enable --py jupyterlab_git && \
 
     
@@ -148,19 +111,23 @@ RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
 
     jupyter lab build && \
 
-# ==================================================================
-# config & cleanup the best way is delete every cache and everything in /root except /root/.bashrc
-# ------------------------------------------------------------------
 
-    ldconfig && \
+### clean #########################################
+    
+    conda clean -afy && \
+    rm ~/miniconda.sh && \
+    rm -rf /root/conda/pkgs && \
     apt-get autoclean && \
     apt-get autoremove && \
     npm cache clean --force && \
     rm -rf /var/lib/apt/lists/* \
            /tmp/* \
-           ~/* \
-           ~/.cache \
+           /var/tmp/* && \
+    rm -rf ~/.cache \
            ~/.npm \
-           ~/.jupyter \
+           ~/.jupyter && \
+    cd / \
 
 EXPOSE 6006 8888
+# CMD    [ "/usr/sbin/sshd", "-D"]
+CMD [ "/bin/bash" ]
