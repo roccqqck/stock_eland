@@ -17,3 +17,11 @@ sudo docker run -it -p 0.0.0.0:8889:8888 -v /home/username/projects:/root/projec
    roccqqck/stock-notebook \
    jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='password' --notebook-dir='/'
 ``````
+
+
+### if u want to use my conda environment
+```
+conda env create -f environment.yml
+
+conda activate stockenv
+```
