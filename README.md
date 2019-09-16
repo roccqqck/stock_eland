@@ -1,6 +1,6 @@
 # stock
 
-### if you want to use my Docker images
+### use my Docker images
 [https://hub.docker.com/r/roccqqck/stock-notebook](https://hub.docker.com/r/roccqqck/stock-notebook)
 `````` 
 sudo docker pull roccqqck/stock-notebook
@@ -11,7 +11,7 @@ sudo docker run -it -p 0.0.0.0:8889:8888 roccqqck/stock-notebook \
 
 
 
-### if u want to mount a folder from your host computer, adding -v /HOST/PATH:/DOCKER/PATH 
+### mount a folder from your host computer, adding -v /HOST/PATH:/DOCKER/PATH 
 `````` 
 sudo docker run -it -p 0.0.0.0:8889:8888 -v /home/username/projects:/root/projects \
    roccqqck/stock-notebook \
@@ -19,7 +19,7 @@ sudo docker run -it -p 0.0.0.0:8889:8888 -v /home/username/projects:/root/projec
 ``````
 
 
-### if u want to use my conda environment. Download this
+### use my conda environment. Download this
 https://anaconda.org/roccqqck/stockenv/2019.08.08.051118/download/stockenv.environment.yml
 ```
 conda env create -f stock.environment.yml
