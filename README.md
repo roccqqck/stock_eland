@@ -19,7 +19,7 @@ sudo docker run -it -p 0.0.0.0:8889:8888 -v /home/username/projects:/root/projec
 ``````
 
 
-### use my conda environment. Download this
+### use my conda environment(linux). Download this
 https://anaconda.org/roccqqck/stockenv/2019.08.08.051118/download/stockenv.environment.yml
 ```
 conda env create -f stock.environment.yml
