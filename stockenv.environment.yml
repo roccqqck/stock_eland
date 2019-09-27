@@ -1,10 +1,9 @@
 name: stockenv
 channels:
-  - conda-forge
   - defaults
+  - conda-forge
 dependencies:
-  - _py-xgboost-mutex=2.0 
-  - _tflow_select=2.3.0
+  - _py-xgboost-mutex=2.0
   - absl-py=0.7.0
   - alabaster=0.7.12
   - anaconda=custom
@@ -278,6 +277,7 @@ dependencies:
   - tensorflow=1.13.1
   - tensorflow-base=1.13.1
   - tensorflow-estimator=1.13.0
+#  - tensorflow-gpu=1.13.1
   - tensorflow-hub=0.4.0
   - termcolor=1.1.0
   - terminado=0.8.1
