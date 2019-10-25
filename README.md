@@ -1,5 +1,3 @@
-# stock
-
 ### use my Docker images
 [https://hub.docker.com/r/roccqqck/stock-notebook](https://hub.docker.com/r/roccqqck/stock-notebook)
 `````` 
