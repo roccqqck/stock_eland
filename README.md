@@ -25,7 +25,7 @@ conda env create -f stockenv.cpu.gpu.environment.yml
 conda activate stockenv
 ```
 
-### use pip requirements
+### use pip requirements python=3.6 cuda=10.0 cudnn=7.3.1
 ```
 pip install -r https://github.com/roccqqck/stock_eland/raw/master/stockenv.requirements.txt
 ```
