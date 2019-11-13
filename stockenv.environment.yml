@@ -6,9 +6,6 @@ dependencies:
   - _py-xgboost-mutex=2.0
   - absl-py=0.7.0
   - alabaster=0.7.12
-  - anaconda=custom
-  - anaconda-client=1.7.2
-  - anaconda-project=0.8.2
   - asn1crypto=0.24.0
   - astor=0.7.1
   - astroid=2.2.5
@@ -44,9 +41,6 @@ dependencies:
   - cloudpickle=0.6.1
   - clyent=1.2.2
   - colorama=0.4.1
-  - conda=4.6.14
-  - conda-build=3.17.6
-  - conda-env=2.6.0
   - contextlib2=0.5.5
   - cryptography=2.4.2
   - curl=7.63.0
