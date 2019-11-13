@@ -27,5 +27,5 @@ conda activate stockenv
 
 ### use pip requirements
 ```
-pip install -r https://github.com/roccqqck/stock_eland/raw/master/stocktenv.requirements.txt
+pip install -r https://github.com/roccqqck/stock_eland/raw/master/stockenv.requirements.txt
 ```
