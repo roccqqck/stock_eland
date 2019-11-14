@@ -43,7 +43,7 @@ dependencies:
   - colorama=0.4.1
   - contextlib2=0.5.5
   - cryptography=2.4.2
-  - cudatoolkit-10.0            # for gpu
+  - cudatoolkit=10.0            # for gpu
   - cudnn=7.3.1                 # for gpu
   - curl=7.63.0 
   - cycler=0.10.0
