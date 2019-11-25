@@ -21,7 +21,7 @@ sudo docker run -it -p 8889:8888 -v /home/username/projects:/root/projects \
 https://github.com/roccqqck/stock_eland/raw/master/stockenv.environment.yml
 ```
 wget https://github.com/roccqqck/stock_eland/raw/master/stockenv.environment.yml
-conda env create -f stockenv.cpu.gpu.environment.yml
+conda env create -f stockenv.environment.yml
 conda activate stockenv
 ```
 
