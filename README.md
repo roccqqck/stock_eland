@@ -29,3 +29,10 @@ conda activate stockenv
 ```
 pip install -r https://github.com/roccqqck/stock_eland/raw/master/stockenv.requirements.txt
 ```
+
+#### word vector download link , put them in the main path
+https://fasttext.cc/docs/en/crawl-vectors.html
+https://github.com/lintseju/word_embedding
+
+#### dataset , put them into "data" folder
+https://drive.google.com/drive/folders/1ZH2wwiYutOX--734fmWqWYJn5_X3zIIA?usp=sharing
