@@ -27,7 +27,9 @@ conda activate stockenv
 
 ### use pip requirements python=3.6 cuda=10.0 cudnn=7.3.1
 ```
-pip install -r https://github.com/roccqqck/stock_eland/raw/master/stockenv.requirements.txt
+python3.6 -m venv ~/.local/venvs/stockenv
+source ~/.local/venvs/stockenv/bin/activate
+python3.6 -m pip install -r https://github.com/roccqqck/stock_eland/raw/master/stockenv.requirements.txt
 ```
 
 #### word vector download link, put them in the main path like "cc.zh.300.vec"
