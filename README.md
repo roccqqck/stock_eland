@@ -25,7 +25,7 @@ conda env create -f stockenv.environment.yml
 conda activate stockenv
 ```
 
-### use pip requirements python=3.6 cuda=10.0 cudnn=7.3.1
+### use pip requirements python=3.6 cuda=10.0 cudnn=7.3.1 nvidia-driver>= 410.48
 ```
 python3.6 -m venv ~/.local/venvs/stockenv
 source ~/.local/venvs/stockenv/bin/activate
